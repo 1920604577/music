@@ -8,4 +8,132 @@
         id,`name`,sex,pic,birth,location,introduction
     </sql>
 
+    <!-- 添加 -->
+    <insert id="insert">
+        insert into
+            singer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="birth != null">
+                birth,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="pic != null">
+                #{pic},
+            </if>
+            <if test="birth != null">
+                #{birth},
+            </if>
+            <if test="location != null">
+                #{location},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 修改 -->
+    <update id="update">
+        update
+            singer
+        <set>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+            <if test="birth != null">
+                birth = #{birth},
+            </if>
+            <if test="location != null">
+                location = #{location},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+        </set>
+        where
+            id = #{id}
+        limit 1
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete">
+        delete from
+            singer
+        where
+            id = #{id}
+    </delete>
+
+    <!-- 根据id查询对象 -->
+    <select id="selectByPrimaryKey" resultType="com.hln.music.pojo.Singer">
+        select
+            <include refid="singerSql"/>
+        from
+            singer
+        where
+            id = #{id}
+        limit 1
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="allSinger" resultType="com.hln.music.pojo.Singer">
+        select
+            <include refid="singerSql"/>
+        from
+            singer
+    </select>
+
+    <!-- 根据歌手名模糊查询list -->
+    <select id="singerOfName" resultType="com.hln.music.pojo.Singer">
+        select
+            <include refid="singerSql"/>
+        from
+            singer
+        where
+            name like #{name}
+    </select>
+
+    <!-- 根据性别查询 -->
+    <select id="singerOfSex" resultType="com.hln.music.pojo.Singer">
+        select
+            <include refid="singerSql"/>
+        from
+            singer
+        where
+            sex = #{sex}
+    </select>
+
 </mapper>
