@@ -6,10 +6,10 @@ import java.io.Serializable;
  * (SongList)实体类
  *
  * @author makejava
- * @since 2024-04-29 20:21:07
+ * @since 2024-05-01 11:28:54
  */
 public class SongList implements Serializable {
-    private static final long serialVersionUID = 720342999598190057L;
+    private static final long serialVersionUID = 245344597916217899L;
 
     private Long id;
 

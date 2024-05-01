@@ -7,10 +7,10 @@ import java.io.Serializable;
  * (Collect)实体类
  *
  * @author makejava
- * @since 2024-04-29 20:21:07
+ * @since 2024-05-01 11:28:52
  */
 public class Collect implements Serializable {
-    private static final long serialVersionUID = -42567047344394254L;
+    private static final long serialVersionUID = 480138624520826695L;
 
     private Long id;
 

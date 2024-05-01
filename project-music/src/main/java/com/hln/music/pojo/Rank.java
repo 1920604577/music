@@ -6,10 +6,10 @@ import java.io.Serializable;
  * (Rank)实体类
  *
  * @author makejava
- * @since 2024-04-29 20:21:07
+ * @since 2024-05-01 11:28:54
  */
 public class Rank implements Serializable {
-    private static final long serialVersionUID = 854017180361411521L;
+    private static final long serialVersionUID = 436661251076369990L;
 
     private Object id;
 

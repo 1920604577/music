@@ -22,13 +22,13 @@ spring:
 #        max-idle: 5    #最大空闲
 #        min-idle: 0     #最小空闲
 server:
-  port: 8006
+  port: 8888
 
 # 选择api项目下的resouces路径下的user文件夹
 # filePath: "/Users/yangyida/Documents/project/complaint_system/web-server/src/main/resources/img/user/"
 filePath: "D:/Desktop/System/history/Community/Community-system/core/src/main/resources/img/user/"
 #D:\Desktop\System\history\Community\Community-system\core\src\main\resources
 # 服务器url路径
-projecturl: "http://127.0.0.1:8005"
+projecturl: "http://127.0.0.1:8888"
 
 

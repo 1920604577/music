@@ -6,23 +6,23 @@ import java.io.Serializable;
  * (Admin)实体类
  *
  * @author makejava
- * @since 2024-04-29 20:18:34
+ * @since 2024-05-01 11:28:54
  */
 public class Admin implements Serializable {
-    private static final long serialVersionUID = -68989398214783257L;
+    private static final long serialVersionUID = 371643170485862047L;
 
-    private Object id;
+    private Long id;
 
     private String name;
 
     private String password;
 
 
-    public Object getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Object id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

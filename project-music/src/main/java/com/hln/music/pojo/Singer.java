@@ -7,10 +7,10 @@ import java.io.Serializable;
  * (Singer)实体类
  *
  * @author makejava
- * @since 2024-04-29 20:21:07
+ * @since 2024-05-01 11:28:54
  */
 public class Singer implements Serializable {
-    private static final long serialVersionUID = 624173142654009187L;
+    private static final long serialVersionUID = 195354145282220979L;
 
     private Long id;
 
