@@ -114,6 +114,9 @@
             <include refid="singerSql"/>
         from
             singer
+        order by
+            id
+        desc
     </select>
 
     <!-- 根据歌手名模糊查询list -->

@@ -6,12 +6,12 @@ import com.hln.music.pojo.Singer;
 import com.hln.music.service.SingerService;
 import com.hln.music.utils.Consts;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,7 +71,6 @@ public class SingerController {
         String id = request.getParameter("id").trim();
         String name = request.getParameter("name").trim();
         String sex = request.getParameter("sex").trim();
-        String pic = request.getParameter("pic").trim();
         String birth = request.getParameter("birth").trim();
         String location = request.getParameter("location").trim();
         String introduction = request.getParameter("introduction").trim();
@@ -88,7 +87,6 @@ public class SingerController {
         singer.setName(name);
         singer.setSex(Integer.valueOf(sex));
         singer.setBirth(birthDate);
-        singer.setPic(pic);
         singer.setLocation(location);
         singer.setIntroduction(introduction);
         boolean flag = singerService.update(singer);
@@ -105,7 +103,7 @@ public class SingerController {
     /**
      * 删除歌手
      */
-    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public Object deleteSinger(HttpServletRequest request) {
         String id = request.getParameter("id").trim();
         boolean flag = singerService.delete(Long.valueOf(id));
@@ -115,7 +113,7 @@ public class SingerController {
     /**
      * 根据id查询对象
      */
-    @RequestMapping(value = "/selectByPrimaryKey",method = RequestMethod.GET)
+    @RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.GET)
     public Object selectByPrimaryKey(HttpServletRequest request) {
         String id = request.getParameter("id").trim();
         return singerService.selectByPrimaryKey(Long.valueOf(id));
@@ -124,7 +122,7 @@ public class SingerController {
     /**
      * 查询所有
      */
-    @RequestMapping(value = "/allSinger",method = RequestMethod.GET)
+    @RequestMapping(value = "/allSinger", method = RequestMethod.GET)
     public Object allSinger(HttpServletRequest request) {
         return singerService.allSinger();
     }
@@ -132,19 +130,65 @@ public class SingerController {
     /**
      * 根据歌手名模糊查询list
      */
-    @RequestMapping(value = "/singerOfName",method = RequestMethod.GET)
+    @RequestMapping(value = "/singerOfName", method = RequestMethod.GET)
     public Object singerOfName(HttpServletRequest request) {
         String name = request.getParameter("name").trim();
-        return singerService.singerOfName("%"+name+"%");
+        return singerService.singerOfName("%" + name + "%");
     }
 
     /**
      * 根据性别查询
      */
-    @RequestMapping(value = "/singerOfSex",method = RequestMethod.GET)
+    @RequestMapping(value = "/singerOfSex", method = RequestMethod.GET)
     public Object singerOfSex(HttpServletRequest request) {
         String sex = request.getParameter("sex").trim();
         return singerService.singerOfSex(Integer.parseInt(sex));
+    }
+
+    /**
+     * 上传歌手图片
+     */
+    @PostMapping("/updateSingerPic")
+    public Object updateSingerPic(@RequestParam("file") MultipartFile multipartFile, @RequestParam("id") int id) {
+        JSONObject jsonObject = new JSONObject();
+        if (multipartFile.isEmpty()) {
+            jsonObject.put(Consts.CODE, 0);
+            jsonObject.put(Consts.MSG, "文件上传失败");
+            return jsonObject;
+        }
+        // 文件名=当前时间到ms + 原来的文件名
+        String fileName = System.currentTimeMillis() + multipartFile.getOriginalFilename();
+        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img"
+                + System.getProperty("file.separator") + "singerPic";
+        File file1 = new File(filePath);
+        if (!file1.exists()) {
+            file1.mkdirs();
+        }
+        // 实际的文件地址
+        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
+        // 存储到数据库里的相对稳健地址
+        String storeMultipartPath = "/img/singerPic/" + fileName;
+        try {
+            multipartFile.transferTo(dest);
+            Singer singer = new Singer();
+            singer.setId((long) id);
+            singer.setPic(storeMultipartPath);
+            boolean flag = singerService.update(singer);
+            if (flag) {
+                jsonObject.put(Consts.CODE,1);
+                jsonObject.put(Consts.MSG,"上传成功");
+                jsonObject.put("pic",storeMultipartPath);
+                return jsonObject;
+            }
+            jsonObject.put(Consts.CODE,0);
+            jsonObject.put(Consts.MSG,"上传失败");
+            return jsonObject;
+        } catch (IOException e) {
+            jsonObject.put(Consts.CODE,0);
+            jsonObject.put(Consts.MSG,"上传失败" + e.getMessage());
+        } finally {
+            return jsonObject;
+        }
     }
 
 }

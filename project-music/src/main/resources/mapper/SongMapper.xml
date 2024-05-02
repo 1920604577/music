@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hln.music.mapper.SongMapper">
+
+    <sql id="songSql">
+        id,songId,`name`,introduction,createTime,updateTime,pic,url
+    </sql>
+
+    <sql id="Blob_Column_List">
+        id,songId,`name`,introduction,createTime,updateTime,pic,lyric,url
+    </sql>
+
+    <!-- 添加 -->
+    <insert id="insert">
+            INSERT INTO song
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    id,
+                </if>
+                <if test="singerId != null">
+                    singer_id,
+                </if>
+                <if test="name != null">
+                    `name`,
+                </if>
+                <if test="introduction != null">
+                    introduction,
+                </if>
+                create_time,update_time,
+                <if test="pic != null">
+                    pic,
+                </if>
+                <if test="lyric != null">
+                    lyric,
+                </if>
+                <if test="url != null">
+                    url
+                </if>
+            </trim>
+            <trim prefix=" VALUES (" suffix=")" suffixOverrides=",">
+                <if test="id != null">
+                    #{id},
+                </if>
+                <if test="singerId != null">
+                    #{singerId},
+                </if>
+                <if test="name != null">
+                    #{name},
+                </if>
+                <if test="introduction != null">
+                    #{introduction},
+                </if>
+                now(), now(),
+                <if test="pic != null">
+                    #{pic},
+                </if>
+                <if test="lyric != null">
+                    #{lyric},
+                </if>
+                <if test="url != null">
+                    #{url}
+                </if>
+            </trim>
+    </insert>
+
+    <!-- 修改 -->
+    <update id="update">
+        update
+            song
+        <set>
+            <if test="singerId != null">
+                singer_id = #{singerId},
+            </if>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+            update_time = now(),
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+            <if test="lyric != null">
+                lyric = #{lyric},
+            </if>
+            <if test="url != null">
+                url = #{url},
+            </if>
+        </set>
+        where
+            id = #{id}
+        limit 1
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete">
+        delete from
+            song
+        where
+            id = #{id}
+    </delete>
+
+    <!-- 根据id查询对象 -->
+    <select id="selectByPrimaryKey" resultType="com.hln.music.pojo.Song">
+        select
+            <include refid="Blob_Column_List"/>
+        from
+            song
+        where
+            id = #{id}
+        limit 1
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="allSong" resultType="com.hln.music.pojo.Song">
+        select
+            <include refid="Blob_Column_List"/>
+        from
+            song
+        order by
+            id
+        desc
+    </select>
+
+    <!-- 根据歌名模糊查询list -->
+    <select id="songOfName" resultType="com.hln.music.pojo.Song">
+        select
+            <include refid="Blob_Column_List"/>
+        from
+            song
+        where
+            name like #{name}
+    </select>
+
+    <!-- 根据歌手id查询 -->
+    <select id="songOfSingerId" resultType="com.hln.music.pojo.Song">
+        select
+            <include refid="Blob_Column_List"/>
+        from
+            song
+        where
+            singer_id = #{singerId}
+    </select>
+
+</mapper>
