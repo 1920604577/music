@@ -190,5 +190,4 @@ public class SingerController {
             return jsonObject;
         }
     }
-
 }

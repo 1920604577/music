@@ -51,6 +51,7 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public List<Song> songOfSingerId(Long singerId) {
-        return songMapper.songOfSingerId(singerId);
+        List<Song> songs = songMapper.songOfSingerId(singerId);
+        return songs;
     }
 }

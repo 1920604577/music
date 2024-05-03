@@ -5,11 +5,11 @@
 <mapper namespace="com.hln.music.mapper.SongMapper">
 
     <sql id="songSql">
-        id,songId,`name`,introduction,createTime,updateTime,pic,url
+        id,singer_id,`name`,introduction,createTime,updateTime,pic,url
     </sql>
 
     <sql id="Blob_Column_List">
-        id,songId,`name`,introduction,createTime,updateTime,pic,lyric,url
+        id,singer_id,`name`,introduction,create_time,update_time,pic,lyric,url
     </sql>
 
     <!-- 添加 -->
